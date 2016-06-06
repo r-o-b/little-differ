@@ -1,0 +1,124 @@
+<link rel="import" href="./bower_components/polymer/polymer.html">
+
+<!--
+Lines numbers to match up with iron-autogrow-textarea
+
+Example:
+
+    <line-numbers></line-numbers>
+
+-->
+
+<dom-module id="line-numbers">
+  <template>
+    <style>
+    :host {
+        display: block;
+        box-sizing: border-box;
+    }
+      
+    div.numbering {
+        /* for borders, trying to match what 1, big, disabled textarea would look like */
+        border-top:2px inset threedface;
+        border-left:2px inset threedface;
+        border-right:2px inset threedface;
+        border-right-color:#DFDFDF;
+        /* the -1px margin cuts off border by 1px; maybe better to add +1px margin to textarea instead (or figure out what else is different) */
+        margin-top: 0px; /* to get rows exactly aligned with textarea for entry; was 1px before using bootstrap; before that was 4px until added border-top; */
+        padding-top: 1px;
+        overflow-y:hidden; /* # of rows should be programmatically set to # of rows of text entered */
+        background-color:#F5F5F5;
+        width:auto;
+        text-align: right;
+        min-height: 99%;
+        resize: none;
+        overflow-y:hidden;
+    }
+    
+    div.numbering .red {
+        color: #B94A48;
+        background-color: #F2DEDE;
+    }
+    
+    div.numbering textarea {
+        resize: none;
+        overflow-y: hidden;
+        position: static;
+        float: none;
+        width: 30px;
+        text-align: right;
+        display: block;
+        font-family: monospace;
+        font-size: 12px;
+        max-height: 14px; /* needed in Firefox, because of large default height */
+        margin: 0px;
+        background-color: #C0C0C0;
+        border-style: none;
+        /* so other user-agent stylesheets match Firefox */
+        padding-top: 0px;
+        padding-right: 1px;
+        padding-bottom: 0px;
+        padding-left: 1px;
+    }
+    
+    div.numbering .black {
+        color: #333333;
+        background-color: #F5F5F5;
+    }
+    
+    div.numbering .green {
+        color: #468847;
+        background-color: #DFF0D8;
+    }
+    
+    div.numbering .yellow {
+        color: #8a6d3b;
+        background-color: #fcf8e3;
+    }
+    
+    div.numbering .blue {
+        color: #31708f;
+        background-color: #d9edf7;
+    }
+    
+    
+    </style>
+
+    <content></content>
+    
+    <div id="nums1" class="numbering">
+        
+        <template is="dom-repeat" items="{{splitList(colors)}}" index-as="line_num">
+            <textarea class$="{{item}}" rows="1" disabled="disabled" cols="3">{{increment(line_num)}}</textarea>
+        </template>
+        
+    </div>
+    
+    
+  </template>
+
+  <script>
+    Polymer({
+      is: 'line-numbers',
+
+      properties: {
+        colors: String,
+      },
+
+      /**
+       * Add 1
+       *
+       * @param {number}
+       * @return {number} number plus 1
+       */
+      increment: function(num) {
+        return num+1;
+      },
+      
+      splitList: function(str) {
+        return str.split(",");
+      }
+      
+    });
+  </script>
+</dom-module>

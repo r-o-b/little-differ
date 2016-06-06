@@ -1,0 +1,87 @@
+﻿html, body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; /* from bootstrap */
+  height: 100%;
+  width:100%;
+  box-sizing: border-box;
+  margin-top:0px;
+  margin-bottom:0px;
+  margin-left:auto;
+  margin-right:auto;
+  padding-bottom: 0px; /* to cancel out a style from elm-lang.org/try */
+}
+
+iron-autogrow-textarea {
+    /* removing because doing iron-flex stuff instead
+     width:47%; */
+    vertical-align: top;
+    font-size: 12px;
+    /* from non-Elm test page */
+    white-space: nowrap;
+    line-height: 15px;
+    font-family: monospace;
+    /* margin-top:-1px; now that using iron-flex, cuts off top border */
+}
+
+/* trying to do equivalent to wrap=off */
+textarea {
+    white-space: pre;
+    word-wrap: normal;
+    /* overflow-x: scroll; don't want scrollbars until needed */
+    overflow-y: hidden; /* to get rid of disabled vertical scrollbars in IE */
+}
+
+line-numbers {
+    /* removing because doing iron-flex stuff instead
+     width:5%; */
+    display:inline-block;
+    background-color: #F5F5F5;
+}
+
+/* at least when running in elm-lang.org/try editor */
+body > div {
+    height:100%;
+}
+div.likeBody {
+    height:100%;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+main {
+  height: calc(100% - 82px); /* 100% - (header + footer) */
+  width:100%;
+  overflow-y:auto;
+  overflow-x:hidden;
+  vertical-align: 0%;
+}
+#scrolltogether {
+  width:100%;
+  /* using iron-flex 
+   height:100%;
+   overflow-y:auto;
+   display:table; 
+   border-spacing: 5px; */
+}
+header {
+  height:22px;
+  width:100%;
+  margin-bottom: 5px;
+}
+input {
+    font-family: Arial;
+    border-style:none;
+    font-size:12pt;
+    text-align:center;
+    width:48%;
+    width: calc(50% - 10px); /* 50% - margins */
+    display:inline-block;
+    margin-top:5px;
+    margin-bottom:5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    box-sizing: border-box; /* not sure why not inherited; Firefox adds padding, which otherwise affects width */
+}
+footer {
+    margin-top:5px;
+    margin-left: 5px;
+    word-break: break-all;
+}
