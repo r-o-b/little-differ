@@ -1,4 +1,4 @@
-import Html exposing (Html, Attribute, div, input, span, text, textarea, toElement, node, em, p)
+import Html exposing (Html, Attribute, div, input, span, text, textarea, toElement, node, em, p, header, footer, main')
 import Html.Attributes exposing (..)
 import Html.Events exposing (on, targetValue)
 import Signal exposing (Address)
@@ -10,72 +10,13 @@ import Json.Encode as Json
 import Maybe
 
 
-port title : String
-port title = "Little Differ"
-
-
 main : Signal Html
 main =
   StartApp.start { model = initialModel, view = view, update = update }
 
 
--- HELPERS
-
-pairs : List a -> List b -> List (a,b)
-pairs lefts rights =
-    map2 (,) lefts rights
-
-
-link : List Attribute -> List Html -> Html
-link attributes children =
-    node "link" attributes children
-    
-
-script : List Attribute -> List Html -> Html
-script attributes children =
-    node "script" attributes children
-    
-    
-ironAutogrowTextarea : List Attribute -> List Html -> Html
-ironAutogrowTextarea =
-    node "iron-autogrow-textarea"
-
-
-lineNumbers : List Attribute -> List Html -> Html
-lineNumbers =
-    node "line-numbers"    
-    
-    
-colors : String -> Attribute
-colors str =
-    toProp "colors" str
-
-
-toProp : String -> String -> Attribute
-toProp propName str =
-  str
-    |> Json.string
-    |> property propName
-
-    
-header : List Attribute -> List Html -> Html
-header attributes children =
-    node "header" attributes children
-
-
-footer : List Attribute -> List Html -> Html
-footer attributes children =
-    node "footer" attributes children
-
-
-main' : List Attribute -> List Html -> Html
-main' attributes children =
-    node "main" attributes children
-    
-
-section : List Attribute -> List Html -> Html
-section attributes children =
-    node "section" attributes children
+port title : String
+port title = "Little Differ"
 
 
 -- MODEL
@@ -120,69 +61,11 @@ update action model =
 
 -- VIEW
 
-countLines : String -> Int
-countLines textBlock =
-  textBlock |> String.lines |> List.length
-
-
 toUpperWords : String -> List String
 toUpperWords theText =
   theText |> String.toUpper |> String.words
 
 
-countWords : String -> Int
-countWords theText =
-  theText |> String.words |> List.length
-
-
-firstWord : String -> String
-firstWord str =
-  Maybe.withDefault "" (str |> String.words |> head)
-
-
-isNoWords : String -> Bool
-isNoWords str =
-  String.words str == [""]
-
-
-wordListsToPairs : String -> String -> List (String,String)
-wordListsToPairs text1 text2 =
-  pairs (String.words text1) (String.words text2)
-
-
-findUnequalPair : List (String, String) -> (String, String)
-findUnequalPair listOfPairs =
-  case listOfPairs of
-    hd::tl -> if fst hd /= snd hd then hd else findUnequalPair tl
-    _      -> ("","")
-
-
-getFirstNonmatch : String -> String -> (String, String)
-getFirstNonmatch text1 text2 =
-  findUnequalPair (pairs (String.words text1) (String.words text2))
-
-
---text ("Texts do not match. " ++ )
-sayFirstWordsNotMatching : String -> String -> Html
-sayFirstWordsNotMatching text1 text2 =
-  let
-    messageStart = "Texts do not match. "
-    nonmatch = getFirstNonmatch text1 text2
-  in
-  if nonmatch /= ("","") then
-    span [] [
-        text (messageStart ++ "The first words that are different: ")
-      , em [] [text (fst nonmatch)]
-      , text " and "
-      , em [] [text (snd nonmatch)]
-    ]
-  else
-    if countWords text1 > countWords text2 then
-      text (messageStart ++ "Text 1 has more words.")
-    else
-      text (messageStart ++ "Text 2 has more words.")
-
-      
 isTextBlank : String -> Bool
 isTextBlank str =
   String.length str == 0
@@ -331,16 +214,6 @@ fieldLineNumbers address toAction colorList =
     ]
     []
     
-    
-testColors : String
-testColors =
-    "red,green,yellow,black,black,black,black,black,black"
-    
-
-testColorList : List String
-testColorList =
-    ["red","green","yellow","yellow","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black"]
-    
 
 makeColorList : List String -> List String -> String
 makeColorList linesOne linesTwo =
@@ -355,7 +228,6 @@ makeColorList linesOne linesTwo =
       extraLines = List.repeat extraLinesLenth "black"
       overlappingLines = List.map2 linesToColor linesOne linesTwo
     in
-      -- join (List.repeat (Basics.max lengthOne lengthTwo) "black")
       join (overlappingLines ++ extraLines)
     
     
@@ -376,13 +248,42 @@ linesToColor lineFrom1 lineFrom2 =
         "yellow" -- match except for case and/or whitespace
       else
         "red"
+
+        
+-- HTML HELPERS
+
+link : List Attribute -> List Html -> Html
+link attributes children =
+    node "link" attributes children
     
-{--
-makeColorList : Int -> Int -> String
-makeColorList listOneLength listTwoLength =
-    join (List.repeat (Basics.max listOneLength listTwoLength) "black")
---}
+
+script : List Attribute -> List Html -> Html
+script attributes children =
+    node "script" attributes children
     
+    
+ironAutogrowTextarea : List Attribute -> List Html -> Html
+ironAutogrowTextarea =
+    node "iron-autogrow-textarea"
+
+
+lineNumbers : List Attribute -> List Html -> Html
+lineNumbers =
+    node "line-numbers"    
+    
+    
+colors : String -> Attribute
+colors str =
+    toProp "colors" str
+
+
+toProp : String -> String -> Attribute
+toProp propName str =
+  str
+    |> Json.string
+    |> property propName
+
+
 tvalue : Decoder String
 tvalue =
       at ["target", "value"] string
@@ -400,7 +301,7 @@ last list =
     _ ->
       last (Maybe.withDefault [] (List.tail list))
 
-      
+
 join : List String -> String
 join list =
   case List.length list of

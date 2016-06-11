@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:8000/" />
+<title>selenium</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">selenium</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/diff.elm</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Little Differ</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=span</td>
+	<td>Ready.</td>
+</tr>
+<tr>
+	<td>waitForText</td>
+	<td>css=main</td>
+	<td>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=(//textarea[@id='textarea'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>id=textarea</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td></td>
+	<td>200</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=span</td>
+	<td>Waiting for Text 2.</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>xpath=(//textarea[@id='textarea'])[2]</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td></td>
+	<td>100</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=span</td>
+	<td>Texts match.</td>
+</tr>
+<tr>
+	<td>assertCssCount</td>
+	<td>css=.green</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>xpath=(//textarea[@id='textarea'])[2]</td>
+	<td><br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td></td>
+	<td>200</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>id=nums1</td>
+	<td>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=span</td>
+	<td>Text 2 has more lines, but the overlapping lines match.</td>
+</tr>
+<tr>
+	<td>assertCssCount</td>
+	<td>css=.green</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>assertCssCount</td>
+	<td>css=.yellow</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>assertCssCount</td>
+	<td>css=.red</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>id=textarea</td>
+	<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td></td>
+	<td>100</td>
+</tr>
+<tr>
+	<td>assertCssCount</td>
+	<td>css=.green</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>assertCssCount</td>
+	<td>css=.yellow</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>assertCssCount</td>
+	<td>css=.red</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=span</td>
+	<td>Text 2 has more lines, but the overlapping lines match except whitespace (spaces and tabs).</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>id=textarea</td>
+	<td>&nbsp;&nbsp;&nbsp;&nbsp;a</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td></td>
+	<td>100</td>
+</tr>
+<tr>
+	<td>assertCssCount</td>
+	<td>css=.green</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>assertCssCount</td>
+	<td>css=.yellow</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>assertCssCount</td>
+	<td>css=.red</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=span</td>
+	<td>Text 2 has more lines, and the overlapping lines don't match.</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=(//textarea[@id='textarea'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>xpath=(//textarea[@id='textarea'])[2]</td>
+	<td>1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td></td>
+	<td>200</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=span</td>
+	<td>Text 1 and Text 2 match except case (capitalization).</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>id=nums1</td>
+	<td>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22</td>
+</tr>
+<tr>
+	<td>assertCssCount</td>
+	<td>css=.green</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>assertCssCount</td>
+	<td>css=.yellow</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>assertCssCount</td>
+	<td>css=.red</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>xpath=(//textarea[@id='textarea'])[2]</td>
+	<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td></td>
+	<td>200</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=span</td>
+	<td>Text 1 and Text 2 match except case and whitespace (capitalization, spaces, and tabs).</td>
+</tr>
+<tr>
+	<td>assertCssCount</td>
+	<td>css=.green</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>assertCssCount</td>
+	<td>css=.yellow</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>assertCssCount</td>
+	<td>css=.red</td>
+	<td>0</td>
+</tr>
+</tbody></table>
+</body>
+</html>
