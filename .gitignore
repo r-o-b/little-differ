@@ -5,3 +5,5 @@ bower_components
 backups & scrapheap
 startCmd.bat
 startElmReactor.cmd
+startElmMake.cmd
+startSimpleServer.cmd

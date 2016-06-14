@@ -1,8 +1,7 @@
-import Html exposing (Html, Attribute, div, input, span, text, textarea, toElement, node, em, p, header, footer, main')
+import Html exposing (Html, Attribute, div, input, span, text, textarea, node, em, p, header, footer, main')
 import Html.Attributes exposing (..)
-import Html.Events exposing (on, targetValue)
-import Signal exposing (Address)
-import StartApp.Simple as StartApp
+import Html.Events exposing (on, targetValue, onInput)
+import Html.App as Html
 import String
 import List exposing (map2, head, tail)
 import Json.Decode exposing (Decoder, at, string, int, object2)
@@ -10,13 +9,10 @@ import Json.Encode as Json
 import Maybe
 
 
-main : Signal Html
+main : Program Never
 main =
-  StartApp.start { model = initialModel, view = view, update = update }
-
-
-port title : String
-port title = "Little Differ"
+  Html.beginnerProgram
+    { model = model, view = view, update = update }
 
 
 -- MODEL
@@ -29,23 +25,23 @@ type alias Model =
   }
 
 
-initialModel : Model
-initialModel =
+model : Model
+model =
   Model "Text 1" "Text 2" "" ""
 
 
 -- UPDATE
 
-type Action
+type Msg
     = Name1 String
     | Name2 String
     | Text1 String
     | Text2 String
 
 
-update : Action -> Model -> Model
-update action model =
-  case action of
+update : Msg -> Model -> Model
+update msg model =
+  case msg of
     Name1 name1 ->
       { model | name1 = name1 }
       
@@ -61,55 +57,8 @@ update action model =
 
 -- VIEW
 
-toUpperWords : String -> List String
-toUpperWords theText =
-  theText |> String.toUpper |> String.words
-
-
-isTextBlank : String -> Bool
-isTextBlank str =
-  String.length str == 0
-  
-
-isLinesSame : List String -> List String -> Bool
-isLinesSame list1 list2 =
-  list1 == list2
-
-
-isLinesSameNoCase : List String -> List String -> Bool
-isLinesSameNoCase list1 list2 =
-  let
-    list1NoCase = List.map String.toUpper list1
-    list2NoCase = List.map String.toUpper list2
-  in
-    list1NoCase == list2NoCase
-
-
-removeWhitespace : String -> String
-removeWhitespace str =
-  String.words str |> join
-    
-    
-isLinesSameNoSpace : List String -> List String -> Bool
-isLinesSameNoSpace list1 list2 =
-  let
-    list1NoSpace = List.map removeWhitespace list1
-    list2NoSpace = List.map removeWhitespace list2
-  in
-    list1NoSpace == list2NoSpace
-
-
-isLinesSameNoCaseSpace : List String -> List String -> Bool
-isLinesSameNoCaseSpace list1 list2 =
-  let
-    list1NoCaseSpace = List.map String.toUpper list1 |> List.map removeWhitespace
-    list2NoCaseSpace = List.map String.toUpper list2 |> List.map removeWhitespace
-  in
-    list1NoCaseSpace == list2NoCaseSpace
-
-
-view : Address Action -> Model -> Html
-view address model =
+view : Model -> Html Msg
+view model =
   let
     text1 = model.text1
     text2 = model.text2
@@ -166,48 +115,42 @@ view address model =
       makeColorList lines1 lines2
   in
     div [class "likeBody"]
-      [ 
-      header [] [ fieldInput "text" address Name1 "Name 1" model.name1
-                  , fieldInput "text" address Name2 "Name 2" model.name2 ]
-      , main' [tabindex -1] [ div [id "scrolltogether", class "layout horizontal"] [ fieldTextarea address Text1 "Text 1" text1 True
-                                                        , fieldLineNumbers address Text1 lineNumColors
-                                                        , fieldTextarea address Text2 "Text 2" text2 False ] ]
+      [ header [] [ fieldInput "text" Name1 "Name 1" model.name1
+                  , fieldInput "text" Name2 "Name 2" model.name2 ]
+      , main' [tabindex -1] [ div [id "scrolltogether", class "layout horizontal"] [ fieldTextarea Text1 "Text 1" text1 True
+                                                                                   , fieldLineNumbers lineNumColors
+                                                                                   , fieldTextarea Text2 "Text 2" text2 False ] ]
       , footer [] [validationMessage]
-      , link [href "diff-styles.css", rel "stylesheet"] []
-      , script [src "./bower_components/webcomponentsjs/webcomponents-lite.js"] []
-      , link [href "./bower_components/iron-flex-layout/iron-flex-layout-classes.html", rel "import"] []
-      , link [href "./bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html", rel "import"] []
-      , link [href "line-numbers.html", rel "import"] []
       ]
 
 
-fieldInput : String -> Address Action -> (String -> Action) -> String -> String -> Html
-fieldInput fieldType address toAction name content =
+fieldInput : String -> (String -> Msg) -> String -> String -> Html Msg
+fieldInput fieldType toMsg name content =
     input
       [ type' fieldType
       , placeholder name
       , Html.Attributes.title "Click to rename" -- include namespace of title attribute to avoid conflict with port for title tag
       , tabindex -1
       , value content
-      , on "input" targetValue (\string -> Signal.message address (toAction string))
+      , onInput toMsg
       ]
       []
 
 
-fieldTextarea : Address Action -> (String -> Action) -> String -> String -> Bool -> Html
-fieldTextarea address toAction name content focus =
+fieldTextarea : (String -> Msg) -> String -> String -> Bool -> Html Msg
+fieldTextarea toMsg name content focus =
   ironAutogrowTextarea
     [ rows 20
     , autofocus focus
     , class "flex-auto"
     , value content
-    , on "input" tvalue (\inputString -> Signal.message address (toAction inputString))
+    , onInput toMsg
     ]
     []
 
     
-fieldLineNumbers : Address Action -> (String -> Action) -> String -> Html
-fieldLineNumbers address toAction colorList =
+fieldLineNumbers : String -> Html Msg
+fieldLineNumbers colorList =
   lineNumbers
     [ colors colorList
     , class "flex-none"
@@ -250,34 +193,73 @@ linesToColor lineFrom1 lineFrom2 =
         "red"
 
         
+-- VIEW HELPERS
+
+toUpperWords : String -> List String
+toUpperWords theText =
+  theText |> String.toUpper |> String.words
+
+
+isTextBlank : String -> Bool
+isTextBlank str =
+  String.length str == 0
+  
+
+isLinesSame : List String -> List String -> Bool
+isLinesSame list1 list2 =
+  list1 == list2
+
+
+isLinesSameNoCase : List String -> List String -> Bool
+isLinesSameNoCase list1 list2 =
+  let
+    list1NoCase = List.map String.toUpper list1
+    list2NoCase = List.map String.toUpper list2
+  in
+    list1NoCase == list2NoCase
+
+
+removeWhitespace : String -> String
+removeWhitespace str =
+  String.words str |> join
+    
+    
+isLinesSameNoSpace : List String -> List String -> Bool
+isLinesSameNoSpace list1 list2 =
+  let
+    list1NoSpace = List.map removeWhitespace list1
+    list2NoSpace = List.map removeWhitespace list2
+  in
+    list1NoSpace == list2NoSpace
+
+
+isLinesSameNoCaseSpace : List String -> List String -> Bool
+isLinesSameNoCaseSpace list1 list2 =
+  let
+    list1NoCaseSpace = List.map String.toUpper list1 |> List.map removeWhitespace
+    list2NoCaseSpace = List.map String.toUpper list2 |> List.map removeWhitespace
+  in
+    list1NoCaseSpace == list2NoCaseSpace
+
+
 -- HTML HELPERS
 
-link : List Attribute -> List Html -> Html
-link attributes children =
-    node "link" attributes children
-    
-
-script : List Attribute -> List Html -> Html
-script attributes children =
-    node "script" attributes children
-    
-    
-ironAutogrowTextarea : List Attribute -> List Html -> Html
+ironAutogrowTextarea : List (Attribute msg) -> List (Html msg) -> Html msg
 ironAutogrowTextarea =
     node "iron-autogrow-textarea"
 
 
-lineNumbers : List Attribute -> List Html -> Html
+lineNumbers : List (Attribute msg) -> List (Html msg) -> Html msg
 lineNumbers =
     node "line-numbers"    
     
     
-colors : String -> Attribute
+colors : String -> Attribute msg
 colors str =
     toProp "colors" str
 
 
-toProp : String -> String -> Attribute
+toProp : String -> String -> Attribute msg
 toProp propName str =
   str
     |> Json.string

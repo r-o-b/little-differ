@@ -11,7 +11,7 @@ Run the following commands from the root of this project:
 
 ```bash
 bower install
-elm-make diff.elm --output index.html
+elm-make diff.elm --output=elm.js
 ```
 
 Then open `index.html` in your browser!
