@@ -23,7 +23,7 @@
 </tr>
 <tr>
 	<td>assertText</td>
-	<td>css=span</td>
+	<td>css=footer</td>
 	<td>Ready.</td>
 </tr>
 <tr>
@@ -58,13 +58,13 @@
 </tr>
 <tr>
 	<td>pause</td>
+	<td>100</td>
 	<td></td>
-	<td>200</td>
 </tr>
 <tr>
 	<td>assertText</td>
 	<td>css=span</td>
-	<td>Texts match.</td>
+	<td>Text 1 and Text 2 match.</td>
 </tr>
 <tr>
 	<td>assertCssCount</td>
@@ -78,8 +78,8 @@
 </tr>
 <tr>
 	<td>pause</td>
-	<td></td>
 	<td>200</td>
+	<td></td>
 </tr>
 <tr>
 	<td>assertText</td>
@@ -88,8 +88,8 @@
 </tr>
 <tr>
 	<td>assertText</td>
-	<td>css=span</td>
-	<td>Text 2 has more lines, but the overlapping lines match.</td>
+	<td>css=footer</td>
+	<td>Text 1 and Text 2 don't match. Text 2 has more lines.</td>
 </tr>
 <tr>
 	<td>assertCssCount</td>
@@ -133,8 +133,8 @@
 </tr>
 <tr>
 	<td>assertText</td>
-	<td>css=span</td>
-	<td>Text 2 has more lines, but the overlapping lines match except whitespace (spaces and tabs).</td>
+	<td>css=footer</td>
+	<td>Text 1 and Text 2 don't match. Text 2 has more lines. Lines in yellow have different capitalization or whitespace.</td>
 </tr>
 <tr>
 	<td>sendKeys</td>
@@ -163,8 +163,8 @@
 </tr>
 <tr>
 	<td>assertText</td>
-	<td>css=span</td>
-	<td>Text 2 has more lines, and the overlapping lines don't match.</td>
+	<td>css=footer</td>
+	<td>Text 1 and Text 2 don't match. Text 2 has more lines. Lines in red don't match.</td>
 </tr>
 <tr>
 	<td>type</td>
@@ -183,8 +183,8 @@
 </tr>
 <tr>
 	<td>assertText</td>
-	<td>css=span</td>
-	<td>Text 1 and Text 2 match except case (capitalization).</td>
+	<td>css=footer</td>
+	<td>Text 1 and Text 2 don't match. Lines in yellow have different capitalization or whitespace.</td>
 </tr>
 <tr>
 	<td>assertText</td>
@@ -218,8 +218,8 @@
 </tr>
 <tr>
 	<td>assertText</td>
-	<td>css=span</td>
-	<td>Text 1 and Text 2 match except case and whitespace (capitalization, spaces, and tabs).</td>
+	<td>css=footer</td>
+	<td>Text 1 and Text 2 don't match. Lines in yellow have different capitalization or whitespace.</td>
 </tr>
 <tr>
 	<td>assertCssCount</td>
