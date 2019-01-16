@@ -1,4 +1,4 @@
-# Source Code for [LittleDiffer.com](http://www.littlediffer.com/)
+# Source Code for [https://r-o-b.github.io/little-differ](https://r-o-b.github.io/little-differ)
 
 All of the Elm code lives in `diff.elm` and relies on the [elm-lang/html][html] library. 
 
